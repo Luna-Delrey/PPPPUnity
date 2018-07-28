@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.scripts.Objects;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -6,8 +7,10 @@ using UnityEngine;
 public class SpriteLoader : MonoBehaviour {
 
     public bool root_folder_exists = false;
-    public int sub_characters_found = 0;
-    public int sub_zips_found = 0;
+    public string[] sub_characters_found;
+    public string[] sub_zips_found;
+    [SerializeField]
+    public List<Character> characters;
 
 	// Use this for initialization
 	void Start () {
@@ -22,15 +25,53 @@ public class SpriteLoader : MonoBehaviour {
         {
             root_folder_exists = true;
         }
-        string[] charactersAvailable = Directory.GetDirectories(appPath);
-        string[] zipPackages = Directory.GetFiles(appPath);
-        sub_characters_found = charactersAvailable.Length;
-        sub_zips_found = zipPackages.Length;
+        //get all uncompressed folders (dirty character mods)
+        sub_characters_found = Directory.GetDirectories(appPath);
+        //get all compressed character mods (clean mods)
+        sub_zips_found = Directory.GetFiles(appPath, "*.zip");
+
+        foreach (string filepath in sub_characters_found)
+        {
+            //check if an icon exists
+            string[] getIcon = Directory.GetFiles(filepath + "/icon/", "*.png");
+            if (getIcon.Length > 0)
+            {
+                //load the icon as a sprite
+                Sprite Icon = new Sprite();
+                Texture2D SpriteTexture = LoadTexture(getIcon[0]);
+                Icon = Sprite.Create(SpriteTexture, new Rect(0, 0, SpriteTexture.width, SpriteTexture.height), new Vector2(0, 0), 100);
+
+                //add the character with the new sprite to the game
+                Character character = new Character();
+                character.Icon = Icon;
+
+                characters.Add(character);
+            }
+        }
 
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    public Texture2D LoadTexture(string FilePath)
+    {
+
+        // Load a PNG or JPG file from disk to a Texture2D
+        // Returns null if load fails
+
+        Texture2D Tex2D;
+        byte[] FileData;
+
+        if (File.Exists(FilePath))
+        {
+            FileData = File.ReadAllBytes(FilePath);
+            Tex2D = new Texture2D(2, 2);           // Create new "empty" texture
+            if (Tex2D.LoadImage(FileData))           // Load the imagedata into the texture (size is set automatically)
+                return Tex2D;                 // If data = readable -> return texture
+        }
+        return null;                     // Return null if load failed
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 }
