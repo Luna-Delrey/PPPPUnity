@@ -65,7 +65,7 @@ We use [Github](https://github.com/) for versioning. For the versions available,
 
 ## Authors
 
-* **Luna Delrey** - *Initial work* - [Luna-Delrey](https://github.com/Luna-Delrey
+* **Luna Delrey** - *Initial work* - [Luna-Delrey](https://github.com/Luna-Delrey)
 
 See also the list of [contributors](https://github.com/Luna-Delrey/PPPPUnity/graphs/contributors) who participated in this project.
 
