@@ -71,7 +71,7 @@ See also the list of [contributors](https://github.com/Luna-Delrey/PPPPUnity/gra
 
 ## License
 
-This project is licensed under the GNU GPLv3 licence - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT licence - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
 
