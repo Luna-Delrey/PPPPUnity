@@ -10,10 +10,10 @@ public class SpriteLoader : MonoBehaviour {
     public string[] sub_characters_found;
     public string[] sub_zips_found;
     [SerializeField]
-    public List<Character> characters;
+    private VariableMaster VarMaster; 
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 
         string appPath = Application.dataPath + "/charactes";
         if (!Directory.Exists(appPath))
@@ -28,7 +28,9 @@ public class SpriteLoader : MonoBehaviour {
         //get all uncompressed folders (dirty character mods)
         sub_characters_found = Directory.GetDirectories(appPath);
         //get all compressed character mods (clean mods)
-        sub_zips_found = Directory.GetFiles(appPath, "*.zip");
+        List<string> files = new List<string>(Directory.GetFiles(appPath, "*.*"));
+        files = files.FindAll(s => s.EndsWith(".zip") || s.EndsWith(".Px4U"));
+        sub_zips_found = files.ToArray();
 
         foreach (string filepath in sub_characters_found)
         {
@@ -45,7 +47,7 @@ public class SpriteLoader : MonoBehaviour {
                 Character character = new Character();
                 character.Icon = Icon;
 
-                characters.Add(character);
+                VarMaster.characters.Add(character);
             }
         }
 
